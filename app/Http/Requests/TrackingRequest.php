@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
 class TrackingRequest extends FormRequest
 {
@@ -25,7 +24,7 @@ class TrackingRequest extends FormRequest
   {
     return [
       'revenue' => 'required|gt:0',
-      'customerId' => 'required|gt:0',
+      'customerId' => 'required|gt:0|unique:conversions,customer_id',
       'bookingReference' => 'required',
     ];
   }

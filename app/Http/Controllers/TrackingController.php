@@ -49,7 +49,7 @@ class TrackingController extends Controller
     if (is_null($platform)) {
       return response()->json(['status' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-    return response()->json(['status' => true, 'data' => [$platform => $platform->platform]], Response::HTTP_OK);
+    return response()->json(['status' => true, 'platform' => $platform->platform], Response::HTTP_OK);
   }
 
   /**

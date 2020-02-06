@@ -37,7 +37,11 @@ class TrackingService
   public function distributeRevenue(int $customerId, string $bookingReference, int $revenue): bool
   {
     // I assumed that this is my cookie
-    $placements = json_decode('{"placements": [{"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}]}', true);
+    $placements = json_decode('{"placements": [
+    {"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, 
+    {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
+    {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
+    ]}', true);
 
     // get avg for every platform
     $revenueShare = floor(($revenue / count($placements['placements'])));
@@ -45,7 +49,7 @@ class TrackingService
     $insertedData = [];
     foreach ($placements['placements'] as $placement) {
       if ($customerId !== 123) {
-        continue;
+        return false;
       }
       $insertedData[] = [
         'customer_id' => $customerId,
