@@ -29,31 +29,40 @@ class TrackingService
   }
 
   /**
+   * this function for distribute revenue among all platforms that exist in the static Cookie
+   * this insert this distribute revenue for each platform with customer ID and booking number
    * @param int $customerId
-   * @param string $bookingReference
+   * @param string $bookingNumber
    * @param int $revenue
+   * @param $cookie
    * @return bool
    */
-  public function distributeRevenue(int $customerId, string $bookingReference, int $revenue): bool
+  public function distributeRevenue(int $customerId, string $bookingNumber, int $revenue, $cookie): bool
   {
-    // I assumed that this is my cookie
-    $placements = json_decode('{"placements": [
+    // I assumed that the cookie is not sent then decode cookie to assoc array'
+    if (is_null($cookie)) {
+      $cookie = json_decode('{"placements": [
     {"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, 
     {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
     {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
     ]}', true);
+    } else {
+      $cookie = json_decode($cookie, true);
+    }
+    $placements = $cookie['placements'];
+
 
     // get avg for every platform
-    $revenueShare = floor(($revenue / count($placements['placements'])));
+    $revenueShare = floor(($revenue / count($placements)));
     // loop through placements and insert them into DB
     $insertedData = [];
-    foreach ($placements['placements'] as $placement) {
-      if ($customerId !== 123) {
+    foreach ($placements as $placement) {
+      if ($placement['customer_id'] !== 123) {
         return false;
       }
       $insertedData[] = [
         'customer_id' => $customerId,
-        'booking_reference' => $bookingReference,
+        'booking_number' => $bookingNumber,
         'revenue' => $revenueShare,
         'platform' => $placement['platform'],
         'date_of_contact' => $placement['date_of_contact'],
@@ -62,7 +71,7 @@ class TrackingService
     }
     if (!empty($insertedData)) {
       try {
-        $this->createRevenue($insertedData);
+        $this->createConversion($insertedData);
         return true;
       } catch (\Exception $exception) {
         Log::error('cannot create revenue' . $exception->getMessage());
@@ -72,6 +81,7 @@ class TrackingService
   }
 
   /**
+   * return most attracted platform
    * @return mixed
    */
   public function getMostAttractedPlatform()
@@ -84,6 +94,7 @@ class TrackingService
   }
 
   /**
+   * return sum of conversion for specific platform
    * @param $platform
    * @return int
    */
@@ -93,6 +104,7 @@ class TrackingService
   }
 
   /**
+   * return count of conversion for specific platform
    * @param string $platform
    * @return int
    */
@@ -102,9 +114,10 @@ class TrackingService
   }
 
   /**
+   * create multiple records
    * @param array $data
    */
-  private function createRevenue(array $data): void
+  private function createConversion(array $data): void
   {
     $this->model->insert($data);
   }

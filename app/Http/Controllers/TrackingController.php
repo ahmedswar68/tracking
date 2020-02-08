@@ -33,10 +33,18 @@ class TrackingController extends Controller
   {
     $revenue = (int)$request->revenue;
     $customerId = $request->customerId;
-    $bookingReference = $request->bookingReference;
-    $results = $this->trackingService->distributeRevenue($customerId, $bookingReference, $revenue);
+    $bookingNumber = $request->bookingNumber;
+
+    //check if request has no cookie return 406 code status
+    if (!$request->hasCookie('mhs_tracking'))
+      return response()->json(['status' => false], Response::HTTP_NOT_ACCEPTABLE);
+
+    $cookie = $request->cookie('mhs_tracking');
+    $results = $this->trackingService->distributeRevenue($customerId, $bookingNumber, $revenue, $cookie);
+
     if (!$results)
       return response()->json(['status' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
+
     return response()->json(['status' => true], Response::HTTP_OK);
   }
 
@@ -60,7 +68,7 @@ class TrackingController extends Controller
   {
     $platform = $request->platform;
     $revenue = $this->trackingService->getPlatformRevenue($platform);
-    return response()->json(['status' => true, 'data' => [$platform => $revenue]], Response::HTTP_OK);
+    return response()->json(['status' => true, $platform => $revenue], Response::HTTP_OK);
   }
 
   /**
@@ -71,6 +79,6 @@ class TrackingController extends Controller
   {
     $platform = $request->platform;
     $count = $this->trackingService->getPlatformConversions($platform);
-    return response()->json(['status' => true, 'data' => [$platform => $count]], Response::HTTP_OK);
+    return response()->json(['status' => true, $platform => $count], Response::HTTP_OK);
   }
 }
