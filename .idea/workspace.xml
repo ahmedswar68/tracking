@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efcf2173-0fee-4b06-9cb3-078865971c9e" name="Default Changelist" comment="" />
+    <list default="true" id="efcf2173-0fee-4b06-9cb3-078865971c9e" name="Default Changelist" comment=".">
+      <change afterPath="$PROJECT_DIR$/app/Repositories/RepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +15,9 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -115,6 +121,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1XLyp8hl510Y9rzmDYiZorK5qrV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -127,11 +134,12 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\myHotelShopTask\app" />
+      <recent name="C:\xampp\htdocs\myHotelShopTask\app\Models" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\myHotelShopTask\app\Http\Requests" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\myHotelShopTask\app\Models" />
     </key>
   </component>
   <component name="RunManager">
@@ -175,10 +183,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="168" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1580842085389" />
-    <state x="482" y="227" key="NewPhpClassDialog" timestamp="1580840592111">
+    <state x="295" y="5" key="CommitChangelistDialog2" timestamp="1581256613248">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="482" y="227" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1580840592111" />
+    <state x="295" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581256613248" />
+    <state x="147" y="70" key="DiffContextDialog" timestamp="1581256611058">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="147" y="70" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1581256611058" />
+    <state x="482" y="227" key="NewPhpClassDialog" timestamp="1581250791775">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="482" y="227" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1581250791775" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1581250430799">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1581250430799" />
+    <state x="400" y="204" key="git4idea.merge.GitPullDialog" timestamp="1581250446603">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="400" y="204" key="git4idea.merge.GitPullDialog/0.0.1536.824@0.0.1536.824" timestamp="1581250446603" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1580846299880">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

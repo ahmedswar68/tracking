@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use App\Models\Conversion;
 use App\Models\Customer;
+use App\Services\TrackingService;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -16,16 +17,10 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_valid_request(): void
   {
-    $request = $this->mockRequest(123, 6);
+    $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     $cookie = [
-      'mhs_tracking' => '{
-        "placements": [
-            {"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, 
-            {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
-            {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
-        ]
-      }'
+      'mhs_tracking' => mockCookieData()
     ];
     $this->call('GET', '/api/distribute-revenue', $request, $cookie)
       ->assertStatus(Response::HTTP_OK)
@@ -37,7 +32,7 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_has_no_cookie(): void
   {
-    $request = $this->mockRequest(123, 6);
+    $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     $this->call('GET', '/api/distribute-revenue', $request)
       ->assertStatus(Response::HTTP_NOT_ACCEPTABLE)
@@ -49,17 +44,11 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_invalid_cookie_customer_id(): void
   {
-    $request = $this->mockRequest(123, 6);
+    $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     // here I changed placements first placement customer_id to 1234
     $cookie = [
-      'mhs_tracking' => '{
-        "placements": [
-            {"platform": "trivago", "customer_id": 1234, "date_of_contact": "2018-01-01 14:00:00"}, 
-            {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
-            {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
-        ]
-      }'
+      'mhs_tracking' => mockCookieData(false)
     ];
     $this->call('GET', '/api/distribute-revenue', $request, $cookie)
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -71,22 +60,20 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_requires_a_customer_id_that_exists(): void
   {
-    $this->json('GET', '/api/distribute-revenue', [
-      'revenue' => 6,
-      'bookingNumber' => Str::random()
-    ])
-      ->assertJsonValidationErrors(['customerId']);
+    $request = $this->mockRequest(null,6);
+    $this->json('GET', '/api/distribute-revenue', $request)
+      ->assertJsonValidationErrors(['customerId'])
+      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
 
   /** @test */
   public function distribute_revenue_requires_a_revenue_that_exists(): void
   {
     create(Customer::class);
-    $this->json('GET', '/api/distribute-revenue', [
-      'customerId' => 123,
-      'bookingNumber' => Str::random()
-    ])
-      ->assertJsonValidationErrors(['revenue']);
+    $request = $this->mockRequest(TrackingService::$customerId);
+    $this->json('GET', '/api/distribute-revenue', $request)
+      ->assertJsonValidationErrors(['revenue'])
+      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
 
   /** @test */
@@ -94,10 +81,11 @@ class TrackingControllerTest extends TestCase
   {
     create(Customer::class);
     $this->json('GET', '/api/distribute-revenue', [
-      'customerId' => 123,
+      'customerId' => TrackingService::$customerId,
       'revenue' => 30
     ])
-      ->assertJsonValidationErrors(['bookingNumber']);
+      ->assertJsonValidationErrors(['bookingNumber'])
+      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
   // end distribute_revenue endpoint tests
 
@@ -108,7 +96,8 @@ class TrackingControllerTest extends TestCase
     create(Customer::class);
     $conversion = create(Conversion::class, ['platform' => 'trivago']);
     $this->json('GET', '/api/most-attracted-platform')
-      ->assertJsonFragment(['platform' => $conversion->platform]);
+      ->assertJsonFragment(['platform' => $conversion->platform])
+      ->assertStatus(Response::HTTP_OK);
 
   }
 
@@ -116,7 +105,10 @@ class TrackingControllerTest extends TestCase
   public function most_attracted_platform_is_false_when_database_is_empty(): void
   {
     $this->json('GET', '/api/most-attracted-platform')
-      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+      ->assertJson([
+        'status' => false,
+      ]);
   }
   // end most_attracted_platform endpoint tests
 
@@ -126,14 +118,16 @@ class TrackingControllerTest extends TestCase
   {
     create(Customer::class);
     $this->json('GET', '/api/platform-revenue')
-      ->assertJsonValidationErrors(['platform']);
+      ->assertJsonValidationErrors(['platform'])
+      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
 
   /** @test */
   public function get_platform_revenue_for_non_existed_platform(): void
   {
     $this->json('GET', '/api/platform-revenue?platform=trivago')
-      ->assertJsonFragment(['trivago' => 0]);
+      ->assertJsonFragment(['trivago' => 0])
+      ->assertStatus(Response::HTTP_OK);
   }
 
   /** @test */
@@ -143,7 +137,8 @@ class TrackingControllerTest extends TestCase
     create(Conversion::class, ['platform' => 'trivago', 'revenue' => 10]);
     create(Conversion::class, ['platform' => 'trivago', 'revenue' => 20]);
     $this->json('GET', '/api/platform-revenue?platform=trivago')
-      ->assertJsonFragment(['trivago' => 30]);
+      ->assertJsonFragment(['trivago' => 30])
+      ->assertStatus(Response::HTTP_OK);
   }
   // end platform_revenue endpoint tests
 
@@ -153,14 +148,16 @@ class TrackingControllerTest extends TestCase
   {
     create(Customer::class);
     $this->json('GET', '/api/platform-conversions')
-      ->assertJsonValidationErrors(['platform']);
+      ->assertJsonValidationErrors(['platform'])
+      ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
 
   /** @test */
   public function get_platform_conversions_for_non_existed_platform(): void
   {
     $this->json('GET', '/api/platform-conversions?platform=trivago')
-      ->assertJsonFragment(['trivago' => 0]);
+      ->assertJsonFragment(['trivago' => 0])
+      ->assertStatus(Response::HTTP_OK);
   }
 
   /** @test */
@@ -170,11 +167,15 @@ class TrackingControllerTest extends TestCase
     create(Customer::class);
     create(Conversion::class, ['platform' => 'trivago', 'revenue' => 10], $times);
     $this->json('GET', '/api/platform-conversions?platform=trivago')
-      ->assertJsonFragment(['trivago' => $times]);
+      ->assertJsonFragment(['trivago' => $times])
+      ->assertStatus(Response::HTTP_OK);
   }
 
   // end platform_revenue endpoint tests
 
+  /**
+   * @return array
+   */
   private function mockRequest(?int $customerId = null, ?int $revenue = null, ?string $bookingNumber = null): array
   {
     $request = [];
