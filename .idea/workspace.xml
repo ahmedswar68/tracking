@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efcf2173-0fee-4b06-9cb3-078865971c9e" name="Default Changelist" comment=".">
-      <change afterPath="$PROJECT_DIR$/app/Repositories/RepositoryInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/ConversionRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/Interfaces/RepositoryInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/myHotelShopTask.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/myHotelShopTask.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TrackingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TrackingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/TrackingRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/TrackingRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Repositories/RepositoryInterface.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/services/TrackingServiceTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/repositories/ConversionRepositoryTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +127,20 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/vendor/php-di/invoker" />
+      <path value="$PROJECT_DIR$/vendor/windwalker/renderer" />
+      <path value="$PROJECT_DIR$/vendor/windwalker/structure" />
+      <path value="$PROJECT_DIR$/vendor/mpociot/documentarian" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/vendor/mpociot/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/darkaonline/l5-swagger" />
+      <path value="$PROJECT_DIR$/vendor/mpociot/laravel-apidoc-generator" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/zircote/swagger-php" />
+      <path value="$PROJECT_DIR$/vendor/swagger-api/swagger-ui" />
+      <path value="$PROJECT_DIR$/vendor/mnapoli/silly" />
+      <path value="$PROJECT_DIR$/vendor/mnapoli/front-yaml" />
     </include_path>
   </component>
   <component name="ProjectId" id="1XLyp8hl510Y9rzmDYiZorK5qrV" />
@@ -130,16 +153,19 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Http/Requests" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/Unit/services" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\myHotelShopTask\tests\Unit\services" />
+      <recent name="C:\xampp\htdocs\myHotelShopTask\app\Http\Requests" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\myHotelShopTask\app\Repositories\Interfaces" />
       <recent name="C:\xampp\htdocs\myHotelShopTask\app" />
       <recent name="C:\xampp\htdocs\myHotelShopTask\app\Models" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\myHotelShopTask\app\Http\Requests" />
     </key>
   </component>
   <component name="RunManager">
@@ -172,33 +198,58 @@
       <updated>1580839849696</updated>
       <workItem from="1580839851414" duration="78000" />
       <workItem from="1580839968348" duration="7953000" />
+      <workItem from="1581274832783" duration="7934000" />
     </task>
+    <task id="LOCAL-00001" summary=".">
+      <created>1581278620844</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1581278620844</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update readme file">
+      <created>1581280923756</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1581280923756</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="." />
+    <MESSAGE value="update readme file" />
+    <option name="LAST_COMMIT_MESSAGE" value="update readme file" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="499" y="168" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1580842085389">
+    <state x="549" y="98" key="#com.intellij.ide.util.MemberChooser" timestamp="1581281629565">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="168" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1580842085389" />
-    <state x="295" y="5" key="CommitChangelistDialog2" timestamp="1581256613248">
+    <state x="549" y="98" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1581281629565" />
+    <state x="499" y="168" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1581281994448">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="295" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581256613248" />
+    <state x="499" y="168" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1581281994448" />
+    <state x="295" y="5" key="CommitChangelistDialog2" timestamp="1581284909824">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="295" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1581284909824" />
     <state x="147" y="70" key="DiffContextDialog" timestamp="1581256611058">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="147" y="70" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1581256611058" />
-    <state x="482" y="227" key="NewPhpClassDialog" timestamp="1581250791775">
+    <state x="482" y="227" key="NewPhpClassDialog" timestamp="1581281580272">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="482" y="227" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1581250791775" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1581250430799">
+    <state x="482" y="227" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1581281580272" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1581284952819">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1581250430799" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1581284952819" />
     <state x="400" y="204" key="git4idea.merge.GitPullDialog" timestamp="1581250446603">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -207,9 +258,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1580846299880" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1580841346915">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1581284505079">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1580841346915" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1581284505079" />
   </component>
 </project>
