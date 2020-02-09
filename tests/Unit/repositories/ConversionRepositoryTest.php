@@ -5,23 +5,29 @@ namespace Tests\Unit;
 
 use App\Models\Conversion;
 use App\Models\Customer;
-use App\Services\TrackingService;
+use App\Repositories\ConversionRepository;
 use Tests\TestCase;
 
-class TrackingServiceTest extends TestCase
+class ConversionRepositoryTest extends TestCase
 {
-
+  private $trackingService;
+  public function setUp()
+  {
+    parent::setUp();
+    $this->trackingService = new ConversionRepository(new Conversion());
+  }
   // start distribute_revenue tests
+
   /**
    * @test
-   * @covers \App\Services\TrackingService::distributeRevenue()
+   * @covers \App\Repositories\ConversionRepository::distributeRevenue()
    */
   public function distribute_revenue(): void
   {
-    $trackingService = new TrackingService();
+
     $customer = create(Customer::class);
     $cookie = mockCookieData();
-    $response = $trackingService->distributeRevenue($customer->id, 'abc123', 30, $cookie);
+    $response = $this->trackingService->distributeRevenue($customer->id, 'abc123', 30, $cookie);
     $this->assertTrue($response);
   }
 
@@ -29,26 +35,24 @@ class TrackingServiceTest extends TestCase
 
   /**
    * @test
-   * @covers \App\Services\TrackingService::getMostAttractedPlatform()
+   * @covers \App\Services\ConversionRepository::getMostAttractedPlatform()
    */
   public function get_most_attracted_platform(): void
   {
-    $trackingService = new TrackingService();
     create(Customer::class);
     create(Conversion::class, ['platform' => 'trivago'], 10);
     create(Conversion::class, ['platform' => 'tripadvisor'], 5);
-    $result = $trackingService->getMostAttractedPlatform();
+    $result = $this->trackingService->getMostAttractedPlatform();
     $this->assertEquals($result->platform, 'trivago');
   }
 
   /**
    * @test
-   * @covers \App\Services\TrackingService::getMostAttractedPlatform()
+   * @covers \App\Services\ConversionRepository::getMostAttractedPlatform()
    */
   public function get_most_attracted_platform_if_database_is_empty(): void
   {
-    $trackingService = new TrackingService();
-    $result = $trackingService->getMostAttractedPlatform();
+    $result = $this->trackingService->getMostAttractedPlatform();
     $this->assertNull($result);
   }
   // end get_most_attracted_platform
@@ -56,26 +60,24 @@ class TrackingServiceTest extends TestCase
   // start get_platform_revenue tests
   /**
    * @test
-   * @covers \App\Services\TrackingService::getPlatformRevenue()
+   * @covers \App\Services\ConversionRepository::getPlatformRevenue()
    */
   public function get_total_platform_revenue(): void
   {
-    $trackingService = new TrackingService();
     create(Customer::class);
     create(Conversion::class, ['platform' => 'trivago', 'revenue' => 10]);
     create(Conversion::class, ['platform' => 'trivago', 'revenue' => 25]);
-    $result = $trackingService->getPlatformRevenue('trivago');
+    $result = $this->trackingService->getPlatformRevenue('trivago');
     $this->assertEquals($result, 35);
   }
 
   /**
    * @test
-   * @covers \App\Services\TrackingService::getPlatformRevenue()
+   * @covers \App\Services\ConversionRepository::getPlatformRevenue()
    */
   public function get_platform_revenue_if_database_is_empty(): void
   {
-    $trackingService = new TrackingService();
-    $result = $trackingService->getPlatformRevenue('trivago');
+    $result = $this->trackingService->getPlatformRevenue('trivago');
     $this->assertEquals(0, $result);
   }
   // end get_platform_revenue
@@ -84,25 +86,23 @@ class TrackingServiceTest extends TestCase
   // start get_platform_conversions tests
   /**
    * @test
-   * @covers \App\Services\TrackingService::getPlatformConversions()
+   * @covers \App\Services\ConversionRepository::getPlatformConversions()
    */
   public function get_platform_conversions_count(): void
   {
-    $trackingService = new TrackingService();
     create(Customer::class);
     create(Conversion::class, ['platform' => 'trivago'], 20);
-    $result = $trackingService->getPlatformConversions('trivago');
+    $result = $this->trackingService->getPlatformConversions('trivago');
     $this->assertEquals($result, 20);
   }
 
   /**
    * @test
-   * @covers \App\Services\TrackingService::getPlatformConversions()
+   * @covers \App\Services\ConversionRepository::getPlatformConversions()
    */
   public function get_platform_conversions_count_if_database_is_empty(): void
   {
-    $trackingService = new TrackingService();
-    $result = $trackingService->getPlatformConversions('trivago');
+    $result = $this->trackingService->getPlatformConversions('trivago');
     $this->assertEquals($result, 0);
   }
 }
