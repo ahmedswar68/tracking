@@ -35,7 +35,7 @@ class ConversionRepositoryTest extends TestCase
 
   /**
    * @test
-   * @covers \App\Services\ConversionRepository::getMostAttractedPlatform()
+   * @covers \App\Repositories\ConversionRepository::getMostAttractedPlatform()
    */
   public function get_most_attracted_platform(): void
   {
@@ -48,7 +48,7 @@ class ConversionRepositoryTest extends TestCase
 
   /**
    * @test
-   * @covers \App\Services\ConversionRepository::getMostAttractedPlatform()
+   * @covers \App\Repositories\ConversionRepository::getMostAttractedPlatform()
    */
   public function get_most_attracted_platform_if_database_is_empty(): void
   {
@@ -60,7 +60,7 @@ class ConversionRepositoryTest extends TestCase
   // start get_platform_revenue tests
   /**
    * @test
-   * @covers \App\Services\ConversionRepository::getPlatformRevenue()
+   * @covers \App\Repositories\ConversionRepository::getPlatformRevenue()
    */
   public function get_total_platform_revenue(): void
   {
@@ -73,7 +73,7 @@ class ConversionRepositoryTest extends TestCase
 
   /**
    * @test
-   * @covers \App\Services\ConversionRepository::getPlatformRevenue()
+   * @covers \App\Repositories\ConversionRepository::getPlatformRevenue()
    */
   public function get_platform_revenue_if_database_is_empty(): void
   {
@@ -86,7 +86,7 @@ class ConversionRepositoryTest extends TestCase
   // start get_platform_conversions tests
   /**
    * @test
-   * @covers \App\Services\ConversionRepository::getPlatformConversions()
+   * @covers \App\Repositories\ConversionRepository::getPlatformConversions()
    */
   public function get_platform_conversions_count(): void
   {
@@ -98,7 +98,7 @@ class ConversionRepositoryTest extends TestCase
 
   /**
    * @test
-   * @covers \App\Services\ConversionRepository::getPlatformConversions()
+   * @covers \App\Repositories\ConversionRepository::getPlatformConversions()
    */
   public function get_platform_conversions_count_if_database_is_empty(): void
   {

@@ -7,21 +7,19 @@ use App\Http\Requests\PlatformConversionRequest;
 use App\Http\Requests\PlatformRevenueRequest;
 use App\Http\Requests\TrackingRequest;
 use App\Repositories\Interfaces\RepositoryInterface;
-use App\Services\TrackingService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrackingController extends Controller
 {
   /**
-   * @var TrackingService
+   * @var RepositoryInterface
    */
-  private $trackingService;
   private $repository;
 
   /**
    * TrackingController constructor.
-   * @param TrackingService $trackingService
+   * @param RepositoryInterface $repository
    */
   public function __construct(RepositoryInterface $repository)
   {
