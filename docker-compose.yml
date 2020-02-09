@@ -1,51 +1,75 @@
 version: '3'
-
-networks:
-  app-network:
-
 services:
-  webserver:
-    image: nginx:stable-alpine
-    container_name: webserver
-    ports:
-      - "8080:80"
-    volumes:
-      - ./src:/var/www/html
-      - ./Docker/nginx/default.config/:/etc/nginx/default.conf
-    depends_on:
-      - php
-      - mysql
-    networks:
-      - app-network
 
-  mysql:
-    image: mysql:5.7
-    container_name: mysql
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "4306:3306"
-    environment:
-        MYSQL_VERSION: 5.7
-        MYSQL_DATABASE: my_database
-        MYSQL_USER: root
-        MYSQL_PASSWORD: root
-        MYSQL_PORT: 3306
-        MYSQL_ROOT_PASSWORD: root
-    volumes:
-        - ./mysql:/var/lib/mysql
-    networks:
-      - app-network
-
-  php:
+  #PHP Service
+  app:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: php
+      dockerfile: docker/Dockerfile
+    image: digitalocean.com/php
+    container_name: tracking
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: AppContributing
+      SERVICE_TAGS: dev
+    working_dir: /var/www
     volumes:
-      - ./src:/var/www/html
-    ports:
-      - "9000:900"
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/php.ini
     networks:
       - app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserverTracking
+    restart: on-failure
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7
+    container_name: databaseTracking
+    restart: on-failure
+    environment:
+      MYSQL_VERSION: 5.7
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER:  ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./docker/db/:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - db
+    ports:
+      - 8181:80
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+      PMA_HOST: db
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
 
