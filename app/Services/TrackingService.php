@@ -1,30 +1,32 @@
 <?php
+declare(strict_types=1);
 
-
-namespace App\Repositories;
+namespace App\Services;
 
 
 use App\Models\Conversion;
-use App\Repositories\Interfaces\ConversionRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ConversionRepository implements ConversionRepositoryInterface
+/**
+ * Class TrackingService
+ * @package App\Services
+ */
+class TrackingService
 {
-  public static $customerId = 123;
   /**
-   * @var Model
+   * @var Conversion $model
    */
-  protected $model;
+  private $model;
+
+  public static $customerId = 123;
 
   /**
-   * BaseRepository constructor.
-   *
-   * @param Conversion $model
+   * TrackingService constructor.
+   * @param Conversion|null $model
    */
-  public function __construct(Conversion $model)
+  public function __construct(?Conversion $model = null)
   {
-    $this->model = $model;
+    $this->model = $model ?? new Conversion();
   }
 
   /**
@@ -67,8 +69,9 @@ class ConversionRepository implements ConversionRepositoryInterface
 
   /**
    * return most attracted platform
+   * @return Conversion|null
    */
-  public function getMostAttractedPlatform()
+  public function getMostAttractedPlatform(): ?Conversion
   {
     return Conversion::select(DB::raw('count(platform) as platform_count'), 'platform')
       ->groupBy('platform')
